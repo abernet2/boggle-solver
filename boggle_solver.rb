@@ -1,11 +1,13 @@
 require_relative 'trie'
+require 'pry'
 require_relative 'boggle_board'
 require 'set'
 
 class BoggleSolver
   attr_reader :board, :trie, :score
 
-  def initialize(board, dictionary_file="dictionaries/dictionary-common.txt")
+  def initialize(board, dictionary_file=nil)
+    dictionary_file ||= File.expand_path('dictionaries/dictionary-common.txt', File.dirname(__FILE__))
     @board = board
     @trie = load_dictionary(dictionary_file)
     @score = 0
@@ -28,7 +30,6 @@ class BoggleSolver
     trie
   end
 
-  private
   def solve_cell(row, col, visited, sequence="")
     return unless trie.sequence?(sequence)
     @solutions ||= Set.new
@@ -39,7 +40,7 @@ class BoggleSolver
     neighbors.each do |neighbor|
       x, y = neighbor
       if board.valid_coord?(x, y) && !visited.include?(neighbor)
-        next_seq = sequence << board[y][x]
+        next_seq = sequence + board.get(y,x)
         visited << neighbor
         solve_cell(y, x, visited, next_seq)
         visited.pop
