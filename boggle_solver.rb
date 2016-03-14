@@ -40,7 +40,7 @@ class BoggleSolver
     neighbors.each do |neighbor|
       x, y = neighbor
       if board.valid_coord?(x, y) && !visited.include?(neighbor)
-        next_seq = sequence + board.get(y,x)
+        next_seq = sequence + board[y][x]
         visited << neighbor
         solve_cell(y, x, visited, next_seq)
         visited.delete(neighbor)

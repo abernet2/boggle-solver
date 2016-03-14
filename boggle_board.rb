@@ -123,8 +123,4 @@ class BoggleBoard
   def [](index)
     board[index]
   end
-
-  def get(row, col)
-    board[row][col]
-  end
 end
