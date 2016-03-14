@@ -1,21 +1,24 @@
 require_relative 'trie'
+require 'pry'
 require_relative 'boggle_board'
 require 'set'
 
 class BoggleSolver
   attr_reader :board, :trie, :score
 
-  def initialize(board, dictionary_file="dictionaries/dictionary-common.txt")
+  def initialize(board, dictionary_file=nil)
+    dictionary_file ||= File.expand_path('dictionaries/dictionary-common.txt', File.dirname(__FILE__))
     @board = board
     @trie = load_dictionary(dictionary_file)
+    @solutions = Set.new
     @score = 0
   end
 
   def solutions
-    if @solutions.nil?
+    if @solutions.empty?
       board.each_with_index do |row, rindex|
         row.each_index do |cindex|
-          solve_cell(rindex, cindex, [], board[rindex][cindex])
+          solve_cell(rindex, cindex, Set.new, board[rindex][cindex])
         end
       end
     end
@@ -28,21 +31,19 @@ class BoggleSolver
     trie
   end
 
-  private
   def solve_cell(row, col, visited, sequence="")
     return unless trie.sequence?(sequence)
-    @solutions ||= Set.new
 
-    add_to_solutions(sequence) if sequence.length > 2 && trie.contains?(sequence)  
+    @solutions.add(sequence) if sequence.length > 2 && trie.contains?(sequence)  
 
     neighbors = board.get_neighbor_indices(row, col)
     neighbors.each do |neighbor|
       x, y = neighbor
       if board.valid_coord?(x, y) && !visited.include?(neighbor)
-        next_seq = sequence << board[y][x]
+        next_seq = sequence + board[y][x]
         visited << neighbor
         solve_cell(y, x, visited, next_seq)
-        visited.pop
+        visited.delete(neighbor)
       end
     end
     @solutions.to_a
@@ -53,13 +54,6 @@ class BoggleSolver
     neighbors.select do |neighbor|
       x, y = neighbor
       !visited.include?(neighbor) && board.valid_coord(x, y)
-    end
-  end
-
-  def add_to_solutions(word)
-    @solutions ||= Set.new
-    if @solutions.add? word
-      @score += score_of(word)
     end
   end
 

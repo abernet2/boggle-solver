@@ -17,9 +17,8 @@ class Trie
   # this returns the node even if it is not a valid
   # word so that the user can find sub-sequences
   def get(word)
-    node = cache if cache_hit? word
     node ||= @root
-    node = find(node, word, 0)
+    find(node, word, 0)
   end
 
   # Checks if the trie contains a word by finding the
@@ -48,7 +47,6 @@ class Trie
     end
   end
 
-  private
   def add(node, word, char_loc)
     char = word[char_loc]
     node = Node.new(char) if node.nil?
@@ -69,7 +67,6 @@ class Trie
   # (or sequence of characters), returns node
   def find(node, word, char_loc)
     return nil if node.nil?
-    return cache(word, node) if char_loc == word.length
     char = word[char_loc]
     if char < node
       return find(node.left, word, char_loc)
@@ -82,18 +79,4 @@ class Trie
     end        
   end
 
-  def cache(sequence=nil, node=nil)
-    return @cache_node unless sequence
-    @cache_seq = sequence
-    @cache_node = node
-  end
-
-  # a cache hit can occur if the given sequence
-  # contains the stored sequence
-  # returns node if there is a cache hit
-  # returns nil if there is not a cache hit
-  def cache_hit?(sequence)
-    return @cache_node if @cache_node == sequence[-1] && sequence.include?(@cache_seq)
-    nil
-  end
 end

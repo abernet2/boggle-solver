@@ -16,6 +16,7 @@ describe "Boggle Solver" do
 
   describe "get_solutions" do
     it 'returns an array of words all at least 3 characters' do
+      puts solutions
       expect(solutions).to be_a_kind_of(Array)
       expect(solutions.all? {|word| word.length >= 3}).to be true
     end
