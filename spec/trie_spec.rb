@@ -7,7 +7,7 @@ describe 'Trie' do
   let(:right_add) {trie.put("the")}
   let(:full_trie) {empty_add; left_add; right_add; trie}
   let(:dict) {File.expand_path("..\\dictionaries\\dictionary-nursery.txt", File.dirname(__FILE__))}
-  let(:dict_trie) {trie.load_dict(dict)}
+  let(:dict_trie) {trie.load_dict(dict); trie}
   
   describe 'initialize' do
     it 'makes a Trie' do
@@ -77,7 +77,7 @@ describe 'Trie' do
       expect(trie.sequence?('LINENDRAP')).to eq true
     end
 
-    
+
   end
 
   describe 'load dict' do
@@ -90,6 +90,7 @@ describe 'Trie' do
       expect(trie.contains?('LINENDRAPER')).to eq true
     end
   end
+
 end
 
 describe 'node' do
