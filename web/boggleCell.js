@@ -34,8 +34,8 @@ Cell.prototype = {
     var i = -1;
     while(i <= 1) {
       var j = -1;
+      var row = this.row + i;
       while(j <= 1) {
-        var row = this.row + i;
         var col = this.col + j++;
         var inbounds = row < 4 && row > -1 && col < 4 && col > -1;
         if(inbounds && !(row == this.row && col == this.col))
