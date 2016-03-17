@@ -10,7 +10,8 @@ var BoggleBoard = React.createClass({
     this.state.boggle.highlightWord(word);
     this.setState({ boggle: this.state.boggle });
   },
-  checkWord: function () {
+  checkWord: function (event) {
+    event.preventDefault();
     console.log('check');
   },
   getInitialState: function () {
