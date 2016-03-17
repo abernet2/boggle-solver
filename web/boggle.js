@@ -15,6 +15,7 @@ Boggle.prototype = {
 
   shake: function() {
     BOGGLE_DICE.forEach(this.chooseRandom, this);
+    return this;
   },
 
   findPath: function(word) {
@@ -38,7 +39,25 @@ Boggle.prototype = {
       r = row(idx);
       c = col(idx);
     }
+    if(r > 3 || r < 0) return null;
     return this.board[r][c];
+  },
+
+  highlight: function(cells) {
+    this.unhighlight();
+    if(cells) cells.forEach((cell) => cell.highlighted = true);
+  },
+
+  unhighlight: function() {
+    var i = 0;
+    while(i < 16) {
+      var cell = this.cell(i++);
+      cell.highlighted = false;
+    }
+  },
+
+  highlightWord: function(word) {
+    this.highlight(this.findPath(word));
   }
 }
 
