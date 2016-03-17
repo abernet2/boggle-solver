@@ -22,7 +22,7 @@ Boggle.prototype = {
     while(i < 16) {
       var cell = this.cell(i++);
       var found = cell.find(word);
-      if(found) return found;
+      if(found) return [...found];
     }
     return null;
   },

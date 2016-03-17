@@ -6,11 +6,9 @@ function Cell(row, col, value, board) {
 }
 
 Cell.prototype = {
-  find: function(word, visited, wordIndex) {
-    if(!wordIndex) wordIndex = 0;
-    if(!visited) visited = new Set();
-    word = word.toUpperCase();
+  find: function(word, visited=new Set(), wordIndex=0) {
     if(visited.has(this)) return null;
+    word = word.toUpperCase();
     var die = this.value;
     var letter = word[wordIndex];
     
@@ -22,9 +20,9 @@ Cell.prototype = {
     if(die === letter) {
       visited.add(this);
       var neighbors = this.getNeighbors(this.row, this.col);
-      var pass = neighbors.some(function(val, index){ 
-        return val.find(word, visited, wordIndex + 1)
-      }, this);
+      var pass = neighbors.some((cell, index) => { 
+        cell.find(word, visited, wordIndex + 1)
+      });
       if(pass) return visited;
     }
     visited.delete(this);
