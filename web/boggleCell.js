@@ -13,16 +13,17 @@ Cell.prototype = {
     var letter = word[wordIndex];
     
     if(wordIndex === word.length - 1) {
+      if(die !== letter) return null;
       visited.add(this);
-      return letter === die;
+      return visited;
     }
 
     if(die === letter) {
       visited.add(this);
       var neighbors = this.getNeighbors(this.row, this.col);
-      var pass = neighbors.some((cell, index) => { 
-        cell.find(word, visited, wordIndex + 1)
-      });
+      var pass = neighbors.some(function(cell, index) { 
+        return cell.find(word, visited, wordIndex + 1)
+      }, this);
       if(pass) return visited;
     }
     visited.delete(this);
@@ -37,9 +38,8 @@ Cell.prototype = {
       var row = this.row + i;
       while(j <= 1) {
         var col = this.col + j++;
-        var inbounds = row < 4 && row > -1 && col < 4 && col > -1;
-        if(inbounds && !(row == this.row && col == this.col))
-          neighbors.push(this.board.cell(row,col));
+        var neighbor = this.board.cell(row, col);
+        if(neighbor) neighbors.push(neighbor);
       }
       i++;
     }

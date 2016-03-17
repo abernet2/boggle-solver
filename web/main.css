@@ -1,0 +1,15 @@
+#example {
+  width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+table {
+  margin: 0 auto;
+}
+
+td {
+  padding: 5px;
+  background-color: lightblue;
+  text-align: center;
+  box-sizing: border-box;
+}

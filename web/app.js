@@ -1,11 +1,9 @@
-var Boggle = require('./boggle');
 var React = require('react');
 var ReactDOM = require('react-dom');
+var BoggleBoard = require('./build/boggleBoard');
 
-var boggle = new Boggle();
-boggle.shake();
-
+console.log(BoggleBoard)
 ReactDOM.render(
-  <BoggleBoard boggle={boggle}/>,
+  <BoggleBoard />,
   document.getElementById('example')
 );
