@@ -30,7 +30,8 @@ Cell.prototype.find = function(word, visited=new Set(), wordIndex=0) {
 };
 
 Cell.prototype.getNeighbors = function() {
-  var neighbors = [];
+  if(this.neighbors) return this.neighbors;
+  this.neighbors = [];
   var i = -1;
   while(i <= 1) {
     var j = -1;
@@ -38,11 +39,11 @@ Cell.prototype.getNeighbors = function() {
     while(j <= 1) {
       var col = this.col + j++;
       var neighbor = this.board.cell(row, col);
-      if(neighbor) neighbors.push(neighbor);
+      if(neighbor) this.neighbors.push(neighbor);
     }
     i++;
   }
-  return neighbors;
+  return this.neighbors;
 };
 
 module.exports = Cell;
