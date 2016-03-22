@@ -107,60 +107,58 @@ function Boggle() {
   this.board = [[], [], [], []];
 }
 
-Boggle.prototype = {
-  chooseRandom: function (value, index, array) {
-    var rand = Math.floor(Math.random() * value.length);
-    var r = row(index);
-    var c = col(index);
-    this.board[r][c] = new Cell(r, c, value[rand], this);
-  },
+Boggle.prototype.chooseRandom = function (value, index, array) {
+  var rand = Math.floor(Math.random() * value.length);
+  var r = row(index);
+  var c = col(index);
+  this.board[r][c] = new Cell(r, c, value[rand], this);
+};
 
-  shake: function () {
-    BOGGLE_DICE.forEach(this.chooseRandom, this);
-    return this;
-  },
+Boggle.prototype.shake = function () {
+  BOGGLE_DICE.forEach(this.chooseRandom, this);
+  return this;
+};
 
-  findPath: function (word) {
-    var i = 0;
-    while (i < 16) {
-      var cell = this.cell(i++);
-      var found = cell.find(word);
-      if (found) return [...found];
-    }
-    return null;
-  },
-
-  include: function (word) {
-    var path = this.findPath(word);
-    return !!path;
-  },
-
-  cell: function (r, c) {
-    if (!c && c !== 0) {
-      var idx = r;
-      r = row(idx);
-      c = col(idx);
-    }
-    if (r > 3 || r < 0) return null;
-    return this.board[r][c];
-  },
-
-  highlight: function (cells) {
-    this.unhighlight();
-    if (cells) cells.forEach(cell => cell.highlighted = true);
-  },
-
-  unhighlight: function () {
-    var i = 0;
-    while (i < 16) {
-      var cell = this.cell(i++);
-      cell.highlighted = false;
-    }
-  },
-
-  highlightWord: function (word) {
-    this.highlight(this.findPath(word));
+Boggle.prototype.findPath = function (word) {
+  var i = 0;
+  while (i < 16) {
+    var cell = this.cell(i++);
+    var found = cell.find(word);
+    if (found) return [...found];
   }
+  return null;
+};
+
+Boggle.prototype.include = function (word) {
+  var path = this.findPath(word);
+  return !!path;
+};
+
+Boggle.prototype.cell = function (r, c) {
+  if (!c && c !== 0) {
+    var idx = r;
+    r = row(idx);
+    c = col(idx);
+  }
+  if (r > 3 || r < 0) return null;
+  return this.board[r][c];
+};
+
+Boggle.prototype.highlight = function (cells) {
+  this.unhighlight();
+  if (cells) cells.forEach(cell => cell.highlighted = true);
+};
+
+Boggle.prototype.unhighlight = function () {
+  var i = 0;
+  while (i < 16) {
+    var cell = this.cell(i++);
+    cell.highlighted = false;
+  }
+};
+
+Boggle.prototype.highlightWord = function (word) {
+  this.highlight(this.findPath(word));
 };
 
 function row(index) {
@@ -181,49 +179,55 @@ function Cell(row, col, value, board) {
   this.row = row, this.col = col, this.value = value, this.board = board;
 }
 
-Cell.prototype = {
-  find: function (word, visited = new Set(), wordIndex = 0) {
-    if (visited.has(this)) return null;
-    word = word.toUpperCase();
-    var die = this.value;
-    var letter = word[wordIndex];
+Cell.prototype.find = function (word, visited = new Set(), wordIndex = 0) {
+  if (visited.has(this)) return null;
+  word = word.toUpperCase();
+  var match = this.value === word[wordIndex];
 
-    if (wordIndex === word.length - 1) {
-      if (die !== letter) return null;
-      visited.add(this);
-      return visited;
-    }
-
-    if (die === letter) {
-      visited.add(this);
-      var neighbors = this.getNeighbors(this.row, this.col);
-      var pass = neighbors.some(function (cell, index) {
-        return cell.find(word, visited, wordIndex + 1);
-      }, this);
-      if (pass) return visited;
-    }
-    visited.delete(this);
-    return null;
-  },
-
-  getNeighbors: function () {
-    var neighbors = [];
-    var i = -1;
-    while (i <= 1) {
-      var j = -1;
-      var row = this.row + i;
-      while (j <= 1) {
-        var col = this.col + j++;
-        var neighbor = this.board.cell(row, col);
-        if (neighbor) neighbors.push(neighbor);
-      }
-      i++;
-    }
-    return neighbors;
+  if (wordIndex === word.length - 1) {
+    if (!match) return null;
+    visited.add(this);
+    return visited;
   }
+
+  if (match) {
+    visited.add(this);
+    var neighbors = this.getNeighbors(this.row, this.col);
+    var pass = neighbors.some(function (cell, index) {
+      return cell.find(word, visited, wordIndex + 1);
+    });
+    if (pass) return visited;
+  }
+  visited.delete(this);
+  return null;
+};
+
+Cell.prototype.getNeighbors = function () {
+  if (this.neighbors) return this.neighbors;
+  var neighbors = this.neighbors = [];
+  var cell = this.board.cell.bind(this.board);
+  var rows = [-1, 0, 1].map(add(this.row));
+  var cols = [-1, 0, 1].map(add(this.col));
+
+  rows.forEach(function (row) {
+    cols.forEach(function (col) {
+      if (cell(row, col)) neighbors.push(cell(row, col));
+    }, this);
+  }, this);
+
+  return this.neighbors;
 };
 
 module.exports = Cell;
+
+// curried add function
+function add(a, b) {
+  if (arguments.length === 0) return add;
+  if (arguments.length === 1) return function (c) {
+    return a + c;
+  };
+  return a + b;
+}
 
 },{}],5:[function(require,module,exports){
 BOGGLE_DICE = ['AAEEGN', 'ELRTTY', 'AOOTTW', 'ABBJOO', 'EHRTVW', 'CIMOTU', 'DISTTY', 'EIOSST', 'DELRVY', 'ACHOPS', 'HIMNQU', 'EEINSU', 'EEGHNW', 'AFFKPS', 'HLNNRZ', 'DEILRX'];
