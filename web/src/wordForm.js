@@ -6,7 +6,7 @@ var WordForm = React.createClass({
   },
   render: function() {
     return (
-      <form>
+      <form onSubmit={this.props.onSubmit}>
         <label htmlFor="word"></label>
         <input type="text" name='word' onChange={this.props.onType} /> 
         <input type="submit" />
