@@ -1,8 +1,7 @@
 function Cell(row, col, value, board) {
-  this.row = row,
-  this.col = col,
-  this.value = value,
-  this.board = board
+  this.row = row;
+  this.col = col;
+  this.value = value;
 }
 
 Cell.prototype.find = function(word, visited=new Set(), wordIndex=0) {
@@ -43,8 +42,6 @@ Cell.prototype.getNeighbors = function() {
 
   return this.neighbors;
 };
-
-module.exports = Cell;
 
 // curried add function
 function add(a, b) {

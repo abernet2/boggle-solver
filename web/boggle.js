@@ -1,8 +1,8 @@
-var BOGGLE_DICE = require('./boggleDice');
-var Cell = require('./boggleCell');
-
-function Boggle() {
-  this.board = [[],[],[],[]]
+function Boggle(tag) {
+  Cell.prototype.board = this;
+  this.board = [[],[],[],[]];
+  this.tag = tag;
+  this.shake;
 }
 
 Boggle.prototype.chooseRandom = function(value, index, array) {
@@ -70,4 +70,3 @@ function col(index) {
 function index(row, col) {
   return row * 4 + col;
 }
-module.exports = Boggle;

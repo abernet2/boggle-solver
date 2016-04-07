@@ -1,9 +1,11 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var BoggleBoard = require('./build/boggleBoard');
+document.addEventListener('DOMContentLoaded', function(){
+    var _boggle = new Boggle(board());
+    _boggle.shake();
 
-console.log(BoggleBoard)
-ReactDOM.render(
-  <BoggleBoard />,
-  document.getElementById('example')
-);
+    function tds(elem=document) {
+        return elem.getElementsByTagName('td');
+    }
+    function board() {
+        return document.getElementById('boggle-board');
+    }
+});

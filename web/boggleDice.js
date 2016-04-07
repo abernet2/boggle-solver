@@ -17,4 +17,3 @@ BOGGLE_DICE = [
   'DEILRX'
 ]
 
-module.exports = BOGGLE_DICE;
