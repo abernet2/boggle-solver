@@ -9,7 +9,11 @@ Boggle.prototype.chooseRandom = function(value, index, array) {
   var rand = Math.floor(Math.random() * value.length);
   var r = row(index);
   var c = col(index);
-  this.board[r][c] = new Cell(r, c, value[rand], this);
+  if(typeof this.board[r][c] === 'Cell'){
+    this.board[r][c].value = value[rand];
+  } else {
+    this.board[r][c] = new Cell(r, c, value[rand], this);
+  }
 };
 
 Boggle.prototype.shake = function() {
@@ -33,7 +37,7 @@ Boggle.prototype.include = function(word) {
 };
 
 Boggle.prototype.cell = function(r, c) {
-  if(!c && c !== 0) {
+  if(arguments.length === 1) {
     var idx = r;
     r = row(idx);
     c = col(idx);

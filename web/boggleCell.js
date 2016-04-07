@@ -2,7 +2,10 @@ function Cell(row, col, value, board) {
   this.row = row;
   this.col = col;
   this.value = value;
+  this.tag = tds(this.board.tag)[index(row, col)];  // dependent on boggle board, should be namespaced better
+  this.updateHTML();
 }
+
 
 Cell.prototype.find = function(word, visited=new Set(), wordIndex=0) {
   if(visited.has(this)) return null;
@@ -18,10 +21,10 @@ Cell.prototype.find = function(word, visited=new Set(), wordIndex=0) {
   if(match) {
     visited.add(this);
     var neighbors = this.getNeighbors(this.row, this.col);
-    var pass = neighbors.some(function(cell, index) { 
+    var found = neighbors.some(function(cell, index) { 
       return cell.find(word, visited, wordIndex + 1);
     });
-    if(pass) return visited;
+    if(found) return visited;
   }
   visited.delete(this);
   return null;
@@ -37,11 +40,20 @@ Cell.prototype.getNeighbors = function() {
   rows.forEach(function(row){
     cols.forEach(function(col){
       if(cell(row, col)) neighbors.push(cell(row, col));
-    }, this)
-  } ,this);
+    })
+  });
 
   return this.neighbors;
 };
+
+Cell.prototype.updateHTML = function(){
+  this.tag.innerText = this.value;
+}
+
+Cell.prototype.highlight = function(bool=true) {
+  var func = bool ? 'add' : 'remove';
+  this.tag.classList[func]('highlighted');
+}
 
 // curried add function
 function add(a, b) {
@@ -49,3 +61,11 @@ function add(a, b) {
   if (arguments.length === 1) return function(c) {return a + c};
   return a + b;
 }
+
+function tds(elem=document) {
+  return elem.getElementsByTagName('td');
+}
+
+Object.defineProperty(Cell.prototype, 'highlighted', {
+  set: Cell.prototype.highlight
+}); 

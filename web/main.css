@@ -8,8 +8,12 @@ table {
 }
 
 td {
-  padding: 15px;
+  padding: 5px;
   background-color: lightblue;
   text-align: center;
   box-sizing: border-box;
+}
+
+.highlighted {
+  background-color: red;
 }
