@@ -24,4 +24,8 @@ define({
     board: function() {
         return document.getElementById('boggle-board');
     },
+
+    flatten: function(array) {
+        return [].concat.apply([], array);
+    },
 });

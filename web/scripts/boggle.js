@@ -1,5 +1,5 @@
 define(['./boggleDice', './boggleCell', './helpers/utils'], function(constants, Cell, utils){
-    var {row, col} = utils;
+    var {row, col, flatten} = utils;
 
     var Boggle = function(tag) {
         Cell.prototype.board = this;
@@ -56,7 +56,11 @@ define(['./boggleDice', './boggleCell', './helpers/utils'], function(constants, 
 
     Boggle.prototype.highlight = function(cells) {
         this.unhighlight();
-        if(cells) cells.forEach((cell) => cell.highlighted = true);
+        if(cells) {
+            cells.forEach((cell) => cell.highlighted = true);
+            return true;
+        }
+        return false;
     };
 
     Boggle.prototype.unhighlight = function() {
@@ -68,7 +72,14 @@ define(['./boggleDice', './boggleCell', './helpers/utils'], function(constants, 
     };
 
     Boggle.prototype.highlightWord = function(word) {
-        this.highlight(this.findPath(word));
+        return this.highlight(this.findPath(word));
+    }
+
+    Boggle.prototype.eachCell = function(fnc) {
+        if(!this.cells) this.cells = flatten(this.board);
+        for(var i = 0; i < this.cells.length; i++) {
+            if(fnc(this.cells[i])) return;
+        }
     }
 
     return Boggle;
