@@ -1,20 +1,14 @@
 
-require(['./boggle'], function(dice){
-    debugger;
+require(['./boggle', './helpers/utils'], function(Boggle, utils){
+    var {tds, board} = utils;
     var form = document.getElementById('word-form');
-    var _boggle = new Boggle(board());
-    _boggle.shake();
-    form.addEventListener('keyup', function(){
-    debugger;
-        var word = event.target.value;
-        var path = _boggle.findPath(word);
-        _boggle.highlight(path);
-    });
+    var boggle = new Boggle(board());
 
-    function tds(elem=document) {
-        return elem.getElementsByTagName('td');
+    function highlightWord() {
+        var word = event.target.value;
+        boggle.highlightWord(word);
     }
-    function board() {
-        return document.getElementById('boggle-board');
-    }
+
+    form.addEventListener('keyup', highlightWord);
+
 });

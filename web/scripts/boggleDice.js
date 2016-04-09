@@ -1,4 +1,4 @@
-define({BOGGLE_DICE: [
+define({dice: [
   'AAEEGN',
   'ELRTTY',
   'AOOTTW',
