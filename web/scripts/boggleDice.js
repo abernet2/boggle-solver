@@ -1,4 +1,4 @@
-BOGGLE_DICE = [
+define({BOGGLE_DICE: [
   'AAEEGN',
   'ELRTTY',
   'AOOTTW',
@@ -15,5 +15,4 @@ BOGGLE_DICE = [
   'AFFKPS',
   'HLNNRZ',
   'DEILRX'
-]
-
+]});
