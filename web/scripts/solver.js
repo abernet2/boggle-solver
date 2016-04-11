@@ -1,6 +1,7 @@
 define(['./helpers/trie'], function(Trie){
     function BoggleSolver(board){
         var solutions = new Set();
+        var solArray;
         var trie = Trie.loadDictionary();
         solve(board, solutions);
 
@@ -30,7 +31,16 @@ define(['./helpers/trie'], function(Trie){
             return solutions.has(word.toUpperCase());
         }
 
+        var getSolutions = function() {
+            if(!solArray) solArray = Array.from(solutions).sort();
+            return  solArray;
+        }
+
+        Object.defineProperty(this, 'solutions', {
+            get: getSolutions
+        })
     }
+
 
     return BoggleSolver;
 });

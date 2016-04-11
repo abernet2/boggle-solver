@@ -1,6 +1,7 @@
 require(['./boggle', './solver', './helpers/utils'], function(Boggle, Solver, utils){
     var {tds, board} = utils;
     var form = document.getElementById('word-form');
+    var btn = document.getElementById('solutions');
     var boggle = new Boggle(board());
     var solver = new Solver(boggle);
     var highlighted = false;
@@ -17,19 +18,31 @@ require(['./boggle', './solver', './helpers/utils'], function(Boggle, Solver, ut
         if(!highlighted) return;
         var word = event.target.children.item('text').value,
             correctness = solver.check(word);
-        appendWord(word, correctness);
+        appendWord(word, correctness, 'guesses');
+        this.reset();
     }
 
-    function appendWord(word, tf) {
-        var elem = document.getElementById('guesses');
+    function appendWord(id, word, tf) {
+        var elem = document.getElementById(id);
+        if(typeof tf === 'boolean') {
+            var className = tf ? 'correct' : 'wrong';
+        }
+        elem.appendChild(li(word, className));
+    }
+
+    function li(text, className) {
         var newNode = document.createElement('li');
-        var className = tf ? 'correct' : 'wrong';
-        newNode.innerText = word;
         newNode.classList.add(className);
-        elem.appendChild(newNode);
+        newNode.innerText = text;
+        return newNode;
+    }
+
+    function printSolutions() {
+        solver.solutions.forEach(appendWord.bind(null, 'answers'));
     }
 
     form.addEventListener('keyup', highlightWord);
     form.addEventListener('submit', checkWord);
+    btn.addEventListener('click', printSolutions)
 
 });

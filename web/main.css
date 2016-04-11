@@ -18,6 +18,11 @@ td {
   background-color: red;
 }
 
+#guesses, #answers {
+  list-style: none;
+  padding: 0;
+}
+
 .correct {
   color: green;
 }
