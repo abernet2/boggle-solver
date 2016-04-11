@@ -2,9 +2,7 @@ define(function(){
     function Node(value, word=false) {
         this.value = value.toUpperCase();
         this.word = word;
-        this.left = null;
-        this.right = null;
-        this.middle = null;
+        this.children = [];
     }
 
     Node.make = function(value) {
@@ -42,12 +40,12 @@ define(function(){
 
         if(node === null) node = new Node(char);
         branch = node.branch(char);
-        if(branch === 'middle') {
+        if(!branch) {
             charLoc++;
             if(charLoc === word.length) return node.markEnd();
         }
-        if(node[branch] === null) node[branch] = new Node(word[charLoc]);
-        node[branch].add(word, charLoc);
+        if(!node.children[branch]) node.children[branch] = new Node(word[charLoc]);
+        node.children[branch].add(word, charLoc);
         return node;
     }
 
@@ -55,16 +53,14 @@ define(function(){
         var char = word[charLoc].toUpperCase(),
             branch = this.branch(char);
             
-        charLoc += branch === 'middle';     // goes to next character if it's a match
+        charLoc += branch === 0;     // goes to next character if it's a match
         if(charLoc === word.length) return this;
-        if(this[branch]) return this[branch].find(word, charLoc);
+        if(this.children[branch]) return this.children[branch].find(word, charLoc);
         return null;
     }
 
     Node.prototype.branch = function(other) {
-        other = other.toUpperCase();
-        var dirs = {'-1': 'left', 0: 'middle', 1: 'right'};
-        return dirs[this.compare(other)];
+        return this.compare(other);
     }
 
     return Node;

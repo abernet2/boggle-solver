@@ -1,9 +1,9 @@
-define(['../scripts/helpers/node'], function(Node){
+define(['../scripts/helpers/node'], function(TrieNode){
     describe('Node', function(){
         var node,
             value = 'a';
         beforeEach(function(){
-            node = new Node('a');
+            node = new TrieNode('a');
         });
 
         describe('instantiation', function(){
@@ -11,10 +11,8 @@ define(['../scripts/helpers/node'], function(Node){
                 expect(node.value).toEqual(value.toUpperCase());
             });
 
-            it('should instantiate children to null', function() {
-                expect(node.left).toEqual(null);
-                expect(node.middle).toEqual(null);
-                expect(node.right).toEqual(null);
+            it('should instantiate children to empty array', function() {
+                expect(node.children).toEqual([]);
             });
 
             it('should mark for end of the word and default to false', function() {
@@ -26,16 +24,17 @@ define(['../scripts/helpers/node'], function(Node){
             beforeEach(function(){
                 node.add('ab');
             });
+
             it('should add to middle branch when there is a match but no children', function(){
-                expect(node.middle.value).toEqual('B');
+                expect(node.children[0].value).toEqual('B');
             });
             it('should add to right / left if there is not a match', function(){
                 node.add('b');
-                expect(node.right.value).toEqual('B');
+                expect(node.children[1].value).toEqual('B');
             });
 
             it('should mark for end of word', function() {
-                expect(node.middle.word).toEqual(true);
+                expect(node.children[0].word).toEqual(true);
             })
         })
     });

@@ -28,4 +28,8 @@ define({
     flatten: function(array) {
         return [].concat.apply([], array);
     },
+
+    endOf: function(list, idx) {
+        return list.length - 1 === idx;
+    }
 });
