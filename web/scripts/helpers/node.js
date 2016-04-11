@@ -19,7 +19,7 @@ define(function(){
             return this.value > other ? -1 : 1;
         }
         else {
-            console.log('error');
+            console.log('compare input neither a node nor a string');
         }
     }
 

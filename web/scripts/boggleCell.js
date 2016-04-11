@@ -13,7 +13,7 @@ define(['./boggleDice', './helpers/utils'], function(constants, utils){
 
   Cell.prototype.find = function(word, visited=new Set(), wordIndex=0) {
     if(visited.has(this)) return null;
-    var match, neighbors, neighFound;
+    var match, neighFound;
     word = word.toUpperCase();
     match = this.match(word[wordIndex]);
     
@@ -25,8 +25,7 @@ define(['./boggleDice', './helpers/utils'], function(constants, utils){
 
     if(match) {
       visited.add(this);
-      neighbors = this.getNeighbors(this.row, this.col);
-      neighFound = neighbors.some(function(cell, index) { 
+      neighFound = this.neighbors.some(function(cell, index) { 
         return cell.find(word, visited, wordIndex + 1);
       });
       if(neighFound) return visited;
@@ -35,9 +34,9 @@ define(['./boggleDice', './helpers/utils'], function(constants, utils){
     return null;
   };
 
-  Cell.prototype.getNeighbors = function() {
-    if(this.neighbors) return this.neighbors;
-    var neighbors = this.neighbors = [];
+  var getNeighbors = function() {
+    if(this._neighbors) return this._neighbors;
+    var neighbors = this._neighbors = [];
     var rows = [-1, 0, 1].map(add(this.row));
     var cols = [-1, 0, 1].map(add(this.col));
 
@@ -47,7 +46,7 @@ define(['./boggleDice', './helpers/utils'], function(constants, utils){
       })
     });
 
-    return this.neighbors;
+    return this._neighbors;
   };
 
   Cell.prototype.updateHTML = function(){
@@ -65,6 +64,10 @@ define(['./boggleDice', './helpers/utils'], function(constants, utils){
 
   Object.defineProperty(Cell.prototype, 'highlighted', {
     set: Cell.prototype.highlight
+  });
+
+  Object.defineProperty(Cell.prototype, 'neighbors', {
+    get: getNeighbors
   });   
 
   return Cell;
