@@ -1,8 +1,9 @@
-require(['./boggle', './solver', './helpers/utils'], function(Boggle, Solver, utils){
-    var {tds, board} = utils;
+require(['./boggle', './solver', './helpers/utils', './helpers/htmlHelper'], function(Boggle, Solver, utils, htmls){
+    var {tds} = utils;
+    var {board} = htmls;
     var form = document.getElementById('word-form');
     var btn = document.getElementById('solutions');
-    var boggle = new Boggle(board());
+    var boggle = new Boggle(board.call(htmls));
     var solver = new Solver(boggle);
     var highlighted = false;
     var guesses = new Set();
@@ -18,7 +19,7 @@ require(['./boggle', './solver', './helpers/utils'], function(Boggle, Solver, ut
         if(!highlighted) return;
         var word = event.target.children.item('text').value,
             correctness = solver.check(word);
-        appendWord(word, correctness, 'guesses');
+        appendWord('guesses', word, correctness);
         this.reset();
     }
 

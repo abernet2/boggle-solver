@@ -17,14 +17,6 @@ define({
         return a + b;
     },
 
-    tds: function(elem=document) {
-        return elem.getElementsByTagName('td');
-    },
-
-    board: function() {
-        return document.getElementById('boggle-board');
-    },
-
     flatten: function(array) {
         return [].concat.apply([], array);
     },

@@ -1,26 +1,18 @@
-#example {
-  width: 700px;
-  margin: 0 auto;
+#boggle-container {
   text-align: center;
 }
-table {
+
+#boggle-board {
   margin: 0 auto;
 }
 
-td {
+#boggle-board td {
   padding: 5px;
   background-color: lightblue;
-  text-align: center;
-  box-sizing: border-box;
 }
 
-.highlighted {
+#boggle-board td.highlighted {
   background-color: red;
-}
-
-#guesses, #answers {
-  list-style: none;
-  padding: 0;
 }
 
 .correct {
@@ -29,4 +21,9 @@ td {
 
 .wrong {
   color: red;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
 }

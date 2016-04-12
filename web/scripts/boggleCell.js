@@ -1,5 +1,6 @@
-define(['./boggleDice', './helpers/utils'], function(constants, utils){
-  var {tds, index, add, endOf} = utils;
+define(['./boggleDice', './helpers/utils', './helpers/htmlHelper'], function(constants, utils, htmls){
+  var {index, add, endOf} = utils;
+  var {tds} = htmls;
   var cell;
 
   function Cell(row, col, value, board) {
