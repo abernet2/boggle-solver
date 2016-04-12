@@ -3,7 +3,7 @@ define(['./helpers/trie'], function(Trie){
         var solutions = new Set();
         var solArray;
         var trie = Trie.loadDictionary();
-        solve(board, solutions);
+        solve(board, solutions);    // with big dictionary, might want to make this asynchronous
 
         function addNeighbor(sequence, n) {
             if(!n.visited) solveCell(n, sequence + n.value);
