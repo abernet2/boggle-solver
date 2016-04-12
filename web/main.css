@@ -13,3 +13,20 @@ td {
   text-align: center;
   box-sizing: border-box;
 }
+
+.highlighted {
+  background-color: red;
+}
+
+#guesses, #answers {
+  list-style: none;
+  padding: 0;
+}
+
+.correct {
+  color: green;
+}
+
+.wrong {
+  color: red;
+}

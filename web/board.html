@@ -4,13 +4,45 @@
   <title>Boggle Board</title>
   <meta charset="utf-8"/>
   <link rel="stylesheet" href="main.css">
-  <script src="build/react.js"></script>
-  <!-- <script src="boggle.js"></script> -->
-  <script src="build/react-dom.js"></script>
-  <script src="build/jquery-2.2.1.min.js"></script>
+  <script data-main="scripts/app" src="scripts/require.js"></script>
 </head>
 <body>
-  <div id="example"></div>
-  <script type='text/javascript' src='bundle.js'></script>
+  <div id="example">
+    <table id='boggle-board'>
+      <tbody>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    <form action="" id='word-form'>
+      <input type="text">
+      <input type="submit">
+    </form>
+    <button id="solutions">Solutions</button>
+    <ul id="guesses"></ul>
+    <ul id="answers"></ul>
+  </div>
 </body>
 </html>

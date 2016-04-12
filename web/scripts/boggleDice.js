@@ -1,4 +1,4 @@
-BOGGLE_DICE = [
+define({dice: [
   'AAEEGN',
   'ELRTTY',
   'AOOTTW',
@@ -15,6 +15,4 @@ BOGGLE_DICE = [
   'AFFKPS',
   'HLNNRZ',
   'DEILRX'
-]
-
-module.exports = BOGGLE_DICE;
+]});
