@@ -17,8 +17,8 @@ define({
         return row;
     },
 
-    tds: function(elem=document) {
-        return elem.getElementsByTagName('td');
+    tds: function() {
+        return document.getElementsByTagName('td');
     },
 
     board: function() {
