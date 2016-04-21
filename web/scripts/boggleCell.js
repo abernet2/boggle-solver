@@ -8,7 +8,7 @@ define(['./boggleDice', './helpers/utils', './helpers/htmlHelper'], function(con
     this.row = row;
     this.col = col;
     this.value = value;
-    this.tag = tds(this.board.tag)[index(row, col)];  // dependent on boggle board, should be namespaced better
+    this.tag = tds[index(row, col)];  // dependent on boggle board, should be namespaced better
     this.updateHTML();
   }
 
