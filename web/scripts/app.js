@@ -1,7 +1,6 @@
 require(['./boggle', './solver', './helpers/htmlHelper'], function(Boggle, Solver, html){
     if(!html.board) html.createAll();
     console.log(html.tagMaker('table.boggle-board>tbody>tr.boggle-row>td+p'))
-    debugger;
 
     var boggle = new Boggle(html.board);
     var solver = new Solver(boggle);

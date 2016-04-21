@@ -72,7 +72,7 @@ define(function(){
         var tag = document.createElement.bind(document);
         return {
             root: tag(str),
-            curr: this.root,
+            curr: tag(str),
             '#': function(name) {this.curr.id = name},
             '.': function(name) {this.curr.classList.add(name)},
             '>': function(str) {return curr.appendChild(tag(str))}
@@ -92,11 +92,8 @@ define(function(){
             args = str.split(sep),
             tag, attr, innerHTML;
         var maker = tagMaker(args.shift());
-        console.log(maker)
-        debugger;
         while(args.length) {
             var test = maker[operators.shift()](args.shift());
-            console.log(test)
         }
 
         // innerHTML = str.match(/{(.*)}/);
@@ -120,6 +117,7 @@ define(function(){
 
     var createButton = function(tag) {
         btn = makeTag('button#solutions{Get Solutions}');
+        btn.innerHTML = 'Get Solutions';
         return tag.appendChild(btn);
     }
     var createGuesses = function(tag) {
