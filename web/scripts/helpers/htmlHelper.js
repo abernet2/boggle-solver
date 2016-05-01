@@ -63,14 +63,16 @@ define(function(){
                 tags = str.split(sep),
                 operators = str.match(sep);
             var array = tags.map(makeTag)
-            return array.reduce(function(p, c, i, a){
-                if(operators[i - 1] === '+') {
+            var result = array.reduce(function(p, c, i, a){
+                var currOperator = operators[i - 1];
+                if(currOperator.match(/[+*]/)) {
                     p = p.parentNode;
-                }
                 p.appendChild(c);
                 if(i !== a.length -1) return c;
                 return a[0];
             });
+
+            return result;
         },
     }
 
@@ -79,9 +81,9 @@ define(function(){
         return {
             root: tag(str),
             curr: tag(str),
-            '#': function(name) {this.curr.id = name},
-            '.': function(name) {this.curr.classList.add(name)},
-            '>': function(str) {return curr.appendChild(tag(str))}
+            '#': function(name) {this.root.id = name},
+            '.': function(name) {this.root.classList.add(name)},
+            // '>': function(str) {return curr.appendChild(tag(str))}
         }
     }
 
@@ -97,10 +99,6 @@ define(function(){
         }
 
         return maker.root;
-    }
-
-    var last = function(array) {
-        return array[array.length-1];
     }
 
 
