@@ -1,10 +1,15 @@
 define(function(){
     var container, board, form, tds, btn, gsses, answers;
+    function array(collection) {
+        return Array.prototype.slice.call(collection);
+    }
+
     var ret = {
 
         createAll: function() {
-            createBoard(this.container);
-            createForm(this.container);
+            var fragment = document.createDocumentFragment();
+            createBoard(fragment);
+            createForm(fragment);
         },
 
         createLi: function(text, className) {
@@ -22,7 +27,7 @@ define(function(){
 
         get form() {
             if(!form) form = document.getElementById('word-form');
-            if(!form) createForm(this.container);
+            // if(!form) createForm(this.container);
             return form;
         },
 
@@ -32,6 +37,7 @@ define(function(){
         },
 
         get answers() {
+            if(!answers) answers = document.getElementById('answers');
             if(!answers) createAnswers(this.container);
             return answers;
         },
@@ -43,15 +49,15 @@ define(function(){
 
         get tds() {
             if(!tds) tds = document.getElementsByTagName('td');
-            return tds;
+            return array(tds);
         },
 
         get board() {
-            if(!board) board = document.getElementById(this.boggleId);
+            if(!board) board = document.getElementById('boggle-board');
             return board;
         },
 
-        tagMaker: function(str) {
+        tagify: function(str) {
             // chop up by period
             var sep = /[>+]/g,
                 tags = str.split(sep),
@@ -78,12 +84,6 @@ define(function(){
             '>': function(str) {return curr.appendChild(tag(str))}
         }
     }
-            // '*': function(times) {
-            //     var parent = this.curr.parentNode;
-            //     for(var i = 0; i < times; i++) {
-
-            //     }
-            // }
 
     // only support single class or id for now
     var makeTag = function(str) {
@@ -96,17 +96,6 @@ define(function(){
             var test = maker[operators.shift()](args.shift());
         }
 
-        // innerHTML = str.match(/{(.*)}/);
-        // if(!operators) return document.createElement(str);
-        // tag = document.createElement(args[0]);
-        // if(operators[0] === '.'){
-        //     tag.classList.add(args[1]);
-        // }
-        // if(operators[0] === '#'){
-        //     tag.id = args[1];
-        // }
-        // tag[attr] = args[1];
-        // if(innerHTML) tag.innerHTML = innerHTML[1];
         return maker.root;
     }
 
@@ -132,7 +121,6 @@ define(function(){
 
     var createForm = function(tag) {
         form = makeTag('form#word-form');
-        console.log(form)
         var text = makeTag('input');
         var submit = makeTag('input');
         text.type = 'text';
