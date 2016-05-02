@@ -60,19 +60,30 @@ define(function(){
         tagify: function(str) {
             // chop up by period
             var sep = /[>+]/g,
-                tags = str.split(sep),
+                tags = str.split(sep).map(makeTag),
                 operators = str.match(sep);
-            var array = tags.map(makeTag)
-            var result = array.reduce(function(p, c, i, a){
+
+           return tags.reduce(function(p, c, i, a){
                 var currOperator = operators[i - 1];
-                if(currOperator.match(/[+*]/)) {
+
+                if(currOperator.match(/[+*]/))
                     p = p.parentNode;
-                p.appendChild(c);
+
+                if(c.constructor === [].constructor)
+                    c.forEach(p.appendChild.bind(p));
+
+                else if(p.constructor === [].constructor){
+                    p.forEach(function(tag){
+                        var newTag = document.createElement(c.tagName);
+                        tag.appendChild(newTag);
+                    });
+                }
+                
+                else p.appendChild(c);
+
                 if(i !== a.length -1) return c;
                 return a[0];
             });
-
-            return result;
         },
     }
 
@@ -83,13 +94,23 @@ define(function(){
             curr: tag(str),
             '#': function(name) {this.root.id = name},
             '.': function(name) {this.root.classList.add(name)},
-            // '>': function(str) {return curr.appendChild(tag(str))}
+            '*': function(num) {
+                var tagName = this.root.tagName,
+                    r, i;
+
+                this.root = [];
+                r = this.root;
+
+                for(i = +num; i--;) {
+                    r.push(tag(tagName));
+                }
+            },
         }
     }
 
     // only support single class or id for now
     var makeTag = function(str) {
-        var sep = /[\.#]/g,
+        var sep = /[\.#\*]/g,
             operators = str.match(sep),
             args = str.split(sep),
             tag, attr, innerHTML;
