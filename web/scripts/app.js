@@ -1,6 +1,5 @@
 require(['./boggle', './solver', './helpers/htmlHelper'], function(Boggle, Solver, html){
     if(!html.board) html.createAll();
-    console.log(html.tagMaker('table.boggle-board>tbody>tr.boggle-row>td+p'))
 
     var boggle = new Boggle(html.board);
     var solver = new Solver(boggle);
@@ -43,7 +42,6 @@ require(['./boggle', './solver', './helpers/htmlHelper'], function(Boggle, Solve
 
     html.form.addEventListener('keyup', highlightWord);
     html.form.addEventListener('submit', checkWord);
-    // html.button;
     html.button.addEventListener('click', printSolutions);
 
 });

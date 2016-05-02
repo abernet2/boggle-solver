@@ -18,7 +18,7 @@ require.config({
 });
 
 require(['jasmine-boot'], function () {
-  require(['nodeSpec'], function(){
+  require(['nodeSpec', 'htmlSpec'], function(){
     //trigger Jasmine
     window.onload();
   })

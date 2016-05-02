@@ -8,11 +8,6 @@ define(['./boggleDice', './boggleCell', './helpers/utils'], function(constants, 
         this.shake();
     }
 
-    Boggle.prototype.highlightWord = function(word) {
-        var path = this.findPath(word);
-        this.highlightWord(word);
-    }
-
     Boggle.prototype.chooseRandom = function(value, index, array) {
         var rand = Math.floor(Math.random() * value.length);
         var r = row(index);
@@ -55,11 +50,17 @@ define(['./boggleDice', './boggleCell', './helpers/utils'], function(constants, 
     };
 
     Boggle.prototype.highlight = function(cells) {
+        var tag = this.tag,
+            parent = tag.parentElement;
+
+        tag.remove;
         this.unhighlight();
         if(cells) {
             cells.forEach((cell) => cell.highlighted = true);
+            parent.insertBefore(tag, parent.firstChild);
             return true;
         }
+        parent.insertBefore(tag, parent.firstChild);
         return false;
     };
 

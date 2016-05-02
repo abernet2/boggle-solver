@@ -35,28 +35,8 @@ define(['./boggleDice', './helpers/utils', './helpers/htmlHelper'], function(con
     return null;
   };
 
-  var getNeighbors = function() {
-    if(this._neighbors) return this._neighbors;
-    var neighbors = this._neighbors = [];
-    var rows = [-1, 0, 1].map(add(this.row));
-    var cols = [-1, 0, 1].map(add(this.col));
-
-    rows.forEach(function(row){
-      cols.forEach(function(col){
-        if(cell(row, col)) neighbors.push(cell(row, col));
-      })
-    });
-
-    return this._neighbors;
-  };
-
   Cell.prototype.updateHTML = function(){
     this.tag.innerText = this.value;
-  }
-
-  Cell.prototype.highlight = function(bool=true) {
-    var func = bool ? 'add' : 'remove';
-    this.tag.classList[func]('highlighted');
   }
 
   Cell.prototype.match = function(other) {
@@ -64,11 +44,27 @@ define(['./boggleDice', './helpers/utils', './helpers/htmlHelper'], function(con
   }
 
   Object.defineProperty(Cell.prototype, 'highlighted', {
-    set: Cell.prototype.highlight
+    set: function(bool=true) {
+      var func = bool ? 'add' : 'remove';
+      this.tag.classList[func]('highlighted');
+    }
   });
 
   Object.defineProperty(Cell.prototype, 'neighbors', {
-    get: getNeighbors
+    get: function() {
+      if(this._neighbors) return this._neighbors;
+      var neighbors = this._neighbors = [];
+      var rows = [-1, 0, 1].map(add(this.row));
+      var cols = [-1, 0, 1].map(add(this.col));
+
+      rows.forEach(function(row){
+        cols.forEach(function(col){
+          if(cell(row, col)) neighbors.push(cell(row, col));
+        })
+      });
+
+      return this._neighbors;
+    }
   });   
 
   return Cell;
